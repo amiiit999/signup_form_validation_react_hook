@@ -3,13 +3,18 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import axios from 'axios';
 
 export default function Contact() {
     const onSubmit = data => {
-        console.log(JSON.stringify(data, null, 2));
-        console.log("data check ->", data);
-    };
+        console.log("data local",data)
+        axios.post('http://localhost/Mr_amiit/cubedotsProjects/react_project_dec_21/project/Contact.php', data)
+      .then(res => {
+        console.log("data",res.data);
+        console.log(res.data);
+      })
+       .catch(err => console.log(err));
+     };
 
 
     const validationSchema = Yup.object().shape({
@@ -37,7 +42,7 @@ export default function Contact() {
         <div className="row">
             <div className="col-md-6 mx-auto">
                 <div className="register-form">
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleSubmit(onSubmit)} method="POST">
                         <div className="form-group">
                             <label>Full Name</label>
                             <input
